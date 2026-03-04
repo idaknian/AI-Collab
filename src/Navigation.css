@@ -1,0 +1,207 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background-color: #000000;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transform: translateX(-100%);
+  transition: transform 0.35s ease;
+  z-index: 999;
+  box-shadow: 10px 0 30px rgba(0,0,0,0.4);
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .Title {
+  background: linear-gradient(145deg, #ff3b3b, #c90000);
+  padding: 25px;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.sidebar .Profile,
+.sidebar .Settings {
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: 0.25s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar .Profile:hover,
+.sidebar .Settings:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.big-btn {
+  padding: 30px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn {
+  background: linear-gradient(180deg, #ff3b3b, #c90000);
+  color: black;
+}
+
+.login-btn:hover {
+  background: linear-gradient(180deg, #ff5555, #ff0000);
+  transform: scale(1.05);
+}
+
+.register-btn {
+  background: linear-gradient(180deg, #ff2a2a, #a80000);
+  color: black;
+}
+
+.register-btn:hover {
+  background: linear-gradient(180deg, #ff4444, #d00000);
+  transform: scale(1.05);
+}
+
+.logout-btn {
+  background: linear-gradient(180deg, #ff3b3b, #c90000);
+  color: black;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(180deg, #ff5555, #ff0000);
+  transform: scale(1.05);
+}
+
+/* =========================
+   DARK MODE SWITCH
+========================= */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #333;
+  border-radius: 34px;
+  transition: 0.3s ease;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s ease;
+}
+
+input:checked + .slider {
+  background-color: #ff3b3b;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* ========= Ketika user mau back ke main menu ========= */
+.mainmenu-btn {
+  margin: 10px 0;
+  background: #1c1f26;
+  border: 1px solid #2a2b31;
+}
+
+.mainmenu-btn:hover {
+  background: #272a33;
+}
+
+/* Warning Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.mode-modal {
+  background: #1c1f26;
+  padding: 35px;
+  border-radius: 18px;
+  width: 380px;
+  text-align: center;
+  color: #e6e6e6;
+}
+
+.warning-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background: #444;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background: #dc2626;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background: #b91c1c;
+}
+
+/* Profile */
+.profile-info{
+  text-align:left;
+  margin-top:15px;
+  line-height:1.8;
+}

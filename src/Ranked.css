@@ -1,0 +1,197 @@
+.HalamanFull {
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+
+  background:
+
+    radial-gradient(circle at center,
+      rgba(0,0,0,0) 45%,
+      rgba(0,0,0,0.12) 75%,
+      rgba(0,0,0,0.22) 100%
+    ),
+
+    radial-gradient(circle at center,
+      #efe3cf 0%,
+      #e8dcc8 40%,
+      #d9cbb5 70%,
+      #cbbca5 100%
+    );
+}
+
+/* ================= PLAY AREA ================= */
+
+.Play-Area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 120px; /* jarak antara You & AI */
+}
+
+/* ================= SIDE ============== */
+
+.Side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Side-Label {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.Grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Row {
+    display: flex;
+    gap: 10px;
+}
+
+.Tile {
+    width: 58px;
+    height: 58px;
+    border: 3.5px solid #000000;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.AI-Tile {
+    background-color: rgb(46, 46, 46);
+    /* border: 3.5px solid #555; */
+}
+
+
+/* ============ Bagian Keyboard ========== */
+
+.Keyboard-Area {
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.Keyboard-Row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.Key {
+  background: #FBF3D5;
+  color: #4747478e;
+  border: 1px solid #2a2a2a;
+  padding: 20px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  min-width: 65px;
+  transition: all 0.2s ease;
+
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+}
+
+.Key:hover {
+  background: #161616;
+  border: 1px solid #444;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.35),
+    0 0 12px rgba(255, 255, 255, 0.08);
+}
+
+/*===== Modal Overlay =====*/
+/* ================= MODAL ================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.mode-modal {
+  background: #111;
+  padding: 40px;
+  width: 420px;
+  border-radius: 24px;
+  text-align: center;
+  color: #e6e6e6;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+}
+
+.mode-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.mode-dot {
+  width: 14px;
+  height: 14px;
+  background: #22c55e;
+  border-radius: 50%;
+}
+
+.mode-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #cfcfcf;
+}
+
+.start-btn {
+  background: #dc2626;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.start-btn:hover {
+  background: #b91c1c;
+}
+
+
+/* ============== Animasi Page Masuk ============== */
+
+.fade-in-page {
+  animation: fadeInPage 0.4s ease forwards;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
