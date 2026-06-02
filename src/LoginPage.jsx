@@ -15,6 +15,7 @@ function LoginPage({ isGuest, setIsGuest }) {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [error, setError] = useState("");
+  const [elo, setElo] = useState("-");
 
   // Modal dibuka dari Navbar
   useEffect(() => {
@@ -40,44 +41,106 @@ function LoginPage({ isGuest, setIsGuest }) {
   };
 
   // ✅ HANDLE SUBMIT (TESTING MODE)
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setError("");
 
-    const TEST_USERNAME = "admin";
-    const TEST_PASSWORD = "12345";
-
     // VALIDASI
-    if (username.length === 0 || username.length > 8) {
-      setError("Username maksimal 8 huruf!");
+    if (username.length < 3) {
+      setError("Username minimal 3 karakter!");
       return;
     }
 
-    if (password.length < 5 || password.length > 10) {
-      setError("Password minimal 5 & maksimal 10 huruf!");
+    if (username.length > 8) {
+      setError("Username maksimal 8 karakter!");
       return;
     }
 
-    if (isLogin) {
-      // LOGIN MODE
-      if (
-        username === TEST_USERNAME &&
-        password === TEST_PASSWORD
-      ) {
-        setIsGuest(false);
-        setShowModal(false);
-        navigate("/play");
-      } else {
-        setError("Wrong username / password");
+    if (password.length < 5) {
+      setError("Password minimal 5 karakter!");
+      return;
+    }
+
+    if (password.length > 8) {
+      setError("Password maksimal 8 karakter!");
+      return;
+    }
+
+  if (isLogin) {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message);
+        return;
       }
-    } else {
-      // REGISTER MODE (TESTING DISABLED)
-      if (password !== rePassword) {
-        setError("Password tidak sama!");
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("elo", data.elo);
+
+      setIsGuest(false);
+      closeModal();
+      navigate("/play");
+    } catch (err) {
+      setError("Tidak bisa terhubung ke server.");
+    }
+  } else {
+    if (password !== rePassword) {
+      setError("Password tidak sama!");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message);
         return;
       }
 
-      setError("Register disabled in testing mode");
+      alert("Registrasi berhasil! Silakan login.");
+      setUsername("");
+      setPassword("");
+      setRePassword("");
+      setIsLogin(true);
+    } catch (err) {
+      setError("Tidak bisa terhubung ke server.");
     }
+  }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setUsername("");
+    setPassword("");
+    setRePassword("");
+    setError("");
   };
 
   // Animasi switch Login / Register
@@ -161,7 +224,7 @@ function LoginPage({ isGuest, setIsGuest }) {
         <>
           <div
             className="modal-overlay"
-            onClick={() => setShowModal(false)}
+            onClick={closeModal}
           ></div>
 
           <div
@@ -170,7 +233,7 @@ function LoginPage({ isGuest, setIsGuest }) {
           >
             <div
               className="back-arrow"
-              onClick={() => setShowModal(false)}
+              onClick={closeModal}
             >
               ←
             </div>

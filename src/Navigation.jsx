@@ -8,6 +8,7 @@ function Navigation({ isGuest, setIsGuest }) {
   const [darkMode, setDarkMode] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [elo, setElo] = useState("-");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,6 +17,14 @@ function Navigation({ isGuest, setIsGuest }) {
     location.pathname === "/classic" ||
     location.pathname === "/ranked";
 
+
+  useEffect(() => {
+    const savedElo = localStorage.getItem("elo");
+
+    if (savedElo) {
+      setElo(savedElo);
+    }
+  }, []);
   const handleLogout = () => {
     setIsGuest(true);
     navigate("/");
@@ -47,7 +56,7 @@ function Navigation({ isGuest, setIsGuest }) {
 
         <div className="Navbar-kanan">
           <div className="ELO">
-            <h2>ELO 🏆: -</h2>
+            <h2>ELO 🏆: {elo}</h2>
           </div>
         </div>
 
@@ -138,7 +147,7 @@ function Navigation({ isGuest, setIsGuest }) {
 
             <div className="profile-info">
               <p><strong>Status:</strong> {isGuest ? "Guest" : "Logged In"}</p>
-              <p><strong>ELO:</strong> -</p>
+              <p><strong>ELO:</strong> {elo}</p>
               <p><strong>Matches Played:</strong> 0</p>
               <p><strong>Win Rate:</strong> 0%</p>
             </div>
