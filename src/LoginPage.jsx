@@ -90,6 +90,7 @@ function LoginPage({ isGuest, setIsGuest }) {
       localStorage.setItem("username", data.username);
       localStorage.setItem("elo", data.elo);
 
+      window.location.reload();
       setIsGuest(false);
       closeModal();
       navigate("/play");
@@ -124,7 +125,6 @@ function LoginPage({ isGuest, setIsGuest }) {
         return;
       }
 
-      alert("Registrasi berhasil! Silakan login.");
       setUsername("");
       setPassword("");
       setRePassword("");
@@ -170,7 +170,7 @@ function LoginPage({ isGuest, setIsGuest }) {
         <div className="Left-Container">
           <div className="Up-Content">
             <h1 className="logo">
-              {"WorPler".split("").map((char, i) => (
+              {"Worder".split("").map((char, i) => (
                 <span key={i}>{char}</span>
               ))}
             </h1>
@@ -212,7 +212,7 @@ function LoginPage({ isGuest, setIsGuest }) {
           <div className="LeaderBoard-Content">
             <div className="LeaderBoard-border">
               <div className="LeaderBoard">
-                tes
+                
               </div>
             </div>
           </div>

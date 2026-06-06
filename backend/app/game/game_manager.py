@@ -1,8 +1,10 @@
+from urllib import response
 import uuid
 import random
 import numpy as np
 from app.game.models import GameState
 from app.game.models import TurnRecord
+import requests
 
 from fastapi import HTTPException
 
@@ -34,7 +36,7 @@ from app.data.word_data import (
 
 GAMES: dict[str, GameState] = {}
 
-def create_game():
+def create_game(username: str, mode: str):
 
     target_idx = random.randrange(
         len(ANSWERS)
@@ -42,12 +44,18 @@ def create_game():
 
     target_word = ANSWERS[target_idx]
 
+    print("=" * 50)
+    print("ANSWER:", target_word)
+    print("=" * 50)
+
     game_id = str(
         uuid.uuid4()
     )
 
     state = GameState(
         game_id=game_id,
+        username=username,
+        mode=mode,
         target_idx=target_idx,
         target_word=target_word,
         possible_answer_indices=np.arange(
@@ -65,6 +73,8 @@ def create_game():
 def get_game(
     game_id: str
 ):
+    print("Requested:", game_id)
+    print("Available:", list(GAMES.keys()))
 
     if game_id not in GAMES:
         raise ValueError(
@@ -82,6 +92,14 @@ def submit_human_guess(
         game_id
     )
 
+    print("=" * 50)
+    print("GAME ID:", game_id)
+    print("CURRENT PLAYER:", game.current_player)
+    print("HUMAN ATTEMPTS:", game.human_attempts)
+    print("AI ATTEMPTS:", game.ai_attempts)
+    print("WINNER:", game.winner)
+    print("=" * 50)
+
     if game.current_player != "human":
         raise ValueError(
             "Not human turn"
@@ -92,17 +110,25 @@ def submit_human_guess(
             "Human has no attempts left"
         )
 
-    if guess_word_input not in GUESSES:
+    guess_word_input = guess_word_input.strip().lower()
+
+    if len(guess_word_input) != 5:
         raise HTTPException(
             status_code=400,
-            detail="Invalid word"
+            detail="Word must be 5 letters"
         )
-        raise ValueError(
-            "Invalid guess"
+
+    if not guess_word_input.isalpha():
+        raise HTTPException(
+            status_code=400,
+            detail="Only letters allowed"
         )
 
     if game.winner:
-        return game
+        return {
+            "winner": game.winner,
+            "word": game.target_word
+        }
 
     target_word = game.target_word
     remaining_before = len(game.possible_answer_indices)
@@ -112,16 +138,26 @@ def submit_human_guess(
         target_word
     )
 
-    pattern = encode_feedback(
-        feedback
-    )
+    new_candidates = []
 
-    game.possible_answer_indices = filter_possible_answers(
-        game.possible_answer_indices,
-        guess_idx(
-            guess_word_input
-        ),
-        pattern
+    for idx in game.possible_answer_indices:
+
+        candidate = ANSWERS[idx]
+
+        if (
+            get_feedback(
+                guess_word_input,
+                candidate
+            )
+            == feedback
+        ):
+            new_candidates.append(
+                idx
+            )
+
+    game.possible_answer_indices = np.array(
+        new_candidates,
+        dtype=np.int32
     )
 
     game.human_attempts += 1
@@ -138,9 +174,39 @@ def submit_human_guess(
         )
     )
 
+    print("GUESS =", repr(guess_word_input))
+    print("TARGET =", repr(target_word))
+    print("EQUAL =", guess_word_input == target_word)
+
     if guess_word_input == target_word:
 
         game.winner = "human"
+
+        if game.mode == "ranked":
+
+            response = requests.post(
+                "http://127.0.0.1:5000/update-elo",
+                json={
+                    "username": game.username,
+                    "elo_change": 40
+                }
+            )
+
+            new_elo = response.json()["new_elo"]
+
+            return {
+                "feedback": feedback,
+                "winner": "human",
+                "word": target_word,
+                "new_elo": new_elo,
+                "elo_change": 40
+            }
+
+        return {
+            "feedback": feedback,
+            "winner": "human",
+            "word": target_word
+        }
 
     if (
         game.human_attempts >= 6
@@ -148,6 +214,12 @@ def submit_human_guess(
         and game.winner is None
     ):
         game.winner = "draw"
+
+        return {
+            "feedback": feedback,
+            "winner": "draw",
+            "word": target_word
+        }
 
     return {
         "feedback": feedback,
@@ -168,7 +240,10 @@ def play_ai_turn(
         )
 
     if game.winner:
-        return game
+        return {
+            "winner": game.winner,
+            "word": game.target_word
+        }
     
     if(game.ai_attempts > 6):
         raise ValueError(
@@ -240,12 +315,38 @@ def play_ai_turn(
             ]
         )
     )
-
+    
     if ai_guess_word == target_word:
 
         game.winner = "ai"
 
-    game.current_player = "human"
+        if game.mode == "ranked":
+
+            response = requests.post(
+                "http://127.0.0.1:5000/update-elo",
+                json={
+                    "username": game.username,
+                    "elo_change": -10
+                }
+            )
+
+            new_elo = response.json()["new_elo"]
+
+            return {
+                "guess": ai_guess_word,
+                "feedback": feedback,
+                "winner": "ai",
+                "word": target_word,
+                "new_elo": new_elo,
+                "elo_change": -10
+            }
+
+        return {
+            "guess": ai_guess_word,
+            "feedback": feedback,
+            "winner": "ai",
+            "word": target_word
+        }
 
     if (
         game.human_attempts >= 6
@@ -254,6 +355,15 @@ def play_ai_turn(
     ):
         game.winner = "draw"
 
+        return {
+            "guess": ai_guess_word,
+            "feedback": feedback,
+            "winner": "draw",
+            "word": target_word
+        }
+
+    game.current_player = "human"
+    
     return {
         "guess": ai_guess_word,
         "feedback": feedback,

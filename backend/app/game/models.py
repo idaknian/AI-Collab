@@ -21,9 +21,10 @@ class TurnRecord:
 @dataclass
 class GameState:
     game_id: str
-
+    username: str
     target_word: str
     target_idx: int
+    mode: str
     possible_answer_indices: np.ndarray
 
     current_player: str = "human"

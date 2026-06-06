@@ -27,7 +27,7 @@
 }
 
 .sidebar .Title {
-  background: linear-gradient(145deg, #ff3b3b, #c90000);
+  background: linear-gradient(145deg, #C3CC9B, #c2b5a3);
   padding: 25px;
   font-size: 36px;
   font-weight: bold;
@@ -64,32 +64,35 @@
 }
 
 .login-btn {
-  background: linear-gradient(180deg, #ff3b3b, #c90000);
+  background: #C3CC9B;
   color: black;
+  border:1px solid black;
 }
 
+
 .login-btn:hover {
-  background: linear-gradient(180deg, #ff5555, #ff0000);
+  background: #C3CC9B;
   transform: scale(1.05);
 }
 
 .register-btn {
-  background: linear-gradient(180deg, #ff2a2a, #a80000);
+  background: #C3CC9B;
   color: black;
+  border:1px solid black;
 }
 
 .register-btn:hover {
-  background: linear-gradient(180deg, #ff4444, #d00000);
+  background: #C3CC9B;
   transform: scale(1.05);
 }
 
 .logout-btn {
-  background: linear-gradient(180deg, #ff3b3b, #c90000);
+  background: #C3CC9B;
   color: black;
 }
 
 .logout-btn:hover {
-  background: linear-gradient(180deg, #ff5555, #ff0000);
+  background: #C3CC9B;
   transform: scale(1.05);
 }
 

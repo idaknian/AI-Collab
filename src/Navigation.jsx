@@ -21,12 +21,16 @@ function Navigation({ isGuest, setIsGuest }) {
   useEffect(() => {
     const savedElo = localStorage.getItem("elo");
 
-    if (savedElo) {
-      setElo(savedElo);
-    }
-  }, []);
+    setElo(savedElo || "-");
+  }, [location]);
+
   const handleLogout = () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("elo");
+
+    setElo("-");
     setIsGuest(true);
+
     navigate("/");
   };
 
@@ -70,7 +74,7 @@ function Navigation({ isGuest, setIsGuest }) {
         >
           <div className="sidebar-top">
             <div className="Title">
-              <p>WorPler</p>
+              <p>Worder</p>
             </div>
 
             {isGamePage && (

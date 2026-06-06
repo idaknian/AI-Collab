@@ -96,6 +96,35 @@ def login():
         "elo": user.elo
     })
 
+@app.route("/update-elo", methods=["POST"])
+def update_elo():
 
+    data = request.get_json()
+
+    username = data["username"]
+    elo_change = data["elo_change"]
+
+    user = User.query.filter_by(
+        username=username
+    ).first()
+
+    if not user:
+        return jsonify({
+            "message": "User not found"
+        }), 404
+
+    user.elo = max(
+        0,
+        user.elo + elo_change
+    )
+
+    print("UPDATE ELO:", username, elo_change)
+    
+    db.session.commit()
+
+    return jsonify({
+        "new_elo": user.elo
+    })
+    
 if __name__ == "__main__":
     app.run(debug=True)

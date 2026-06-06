@@ -43,7 +43,7 @@ body {
   margin: 0;
   color: white;
   background-color : #000000;
-  border-bottom: 4.2px solid rgb(136, 136, 136);
+  border-bottom: 2.2px solid rgb(255, 255, 255);
 }
 
 .LoginPage {
@@ -59,8 +59,8 @@ body {
   flex: 3;
   display: flex;
   flex-direction: column;
-  border : 4.2px solid white;
-  background: linear-gradient(145deg, #ff3b3b, #c90000);
+  border : 2.2px solid white;
+  background: linear-gradient(145deg, #C3CC9B, #FBE8CE);
   border-radius: 20px;
   padding: 30px 20px;
 }
@@ -84,7 +84,7 @@ body {
 .logo span {
   display: inline-block;
 
-  background: linear-gradient(270deg, #ffffff, #ffe0e0, #ffffff);
+  background: linear-gradient(270deg, #ffffff, #ffffff, #ffffff);
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -93,7 +93,7 @@ body {
 }
 
 .logo span:nth-child(1) { animation-delay: 0s; }
-.logo span:nth-child(2) { animation-delay: 0.1s; }
+.logo span:nth-child(2) { animation-delay: 0.01s; }
 .logo span:nth-child(3) { animation-delay: 0.2s; }
 .logo span:nth-child(4) { animation-delay: 0.3s; }
 .logo span:nth-child(5) { animation-delay: 0.4s; }
@@ -140,15 +140,17 @@ body {
 }
 
 .Play {
-  background: linear-gradient(145deg, #000000, #1a1a1a);
+  background: linear-gradient(145deg, #3c3737, #1a1a1a);
   color: white;
 }
 
 .Login,
 .Register {
-  background: linear-gradient(145deg, #ff3b3b, #c90000);
+  background: linear-gradient(145deg, #C3CC9B, #EBF4DD);
   color: black;
 }
+
+/*EDEDCE*/
 
 .Play:hover,
 .Login:hover,
@@ -182,9 +184,9 @@ body {
   width: 100%;
   max-width: 900px;
   height: 450px;
-  background: black;
-  border-radius: 25px;
-  padding: 5px;
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  border: 2.8px solid white;
   box-shadow: 0 30px 60px rgba(0,0,0,0.4);
   display: flex;
 }
@@ -610,4 +612,16 @@ body.dark .login-modal {
 
 body.dark .Left-Container{
   border: 4.2px solid rgb(136, 136, 136);
+}
+
+body.dark .Play{
+  background: linear-gradient(135deg, #000000, #000000);
+}
+
+body.dark .Login, body.dark .Register {
+  background: linear-gradient(135deg, #d8d2d2, #bcb4b4);
+}
+
+body.dark .Left-Container {
+  background: linear-gradient(135deg, #37353E, #2C2C2C);   
 }

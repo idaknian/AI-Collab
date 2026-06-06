@@ -1,7 +1,11 @@
 from fastapi import APIRouter
 import time
 
-from app.api.schemas import HumanGuessRequest
+from app.api.schemas import (
+    HumanGuessRequest,
+    StartGameRequest
+)
+
 from app.game.game_manager import (
     create_game,
     get_game,
@@ -47,9 +51,14 @@ def simulate_many(n: int = 100):
     }
 
 @router.post("/game/start")
-def start_game():
+def start_game(
+    request: StartGameRequest
+):
 
-    return create_game()
+    return create_game(
+        request.username,
+        request.mode
+    )
 
 @router.get("/game/{game_id}")
 def get_game_state(game_id: str):

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Literal
+from pydantic import BaseModel
 # from typing import List
 
 class GuessRequest(BaseModel):
@@ -9,3 +10,7 @@ class GuessRequest(BaseModel):
 class HumanGuessRequest(BaseModel):
     game_id: str
     guess: str
+
+class StartGameRequest(BaseModel):
+    username: str
+    mode: str

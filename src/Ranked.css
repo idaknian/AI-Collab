@@ -1,16 +1,14 @@
-.HalamanFull {
+.Ranked-HalamanFull {
   height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
 
   background:
-
     radial-gradient(circle at center,
       rgba(0,0,0,0) 45%,
       rgba(0,0,0,0.12) 75%,
       rgba(0,0,0,0.22) 100%
     ),
-
     radial-gradient(circle at center,
       #efe3cf 0%,
       #e8dcc8 40%,
@@ -21,78 +19,91 @@
 
 /* ================= PLAY AREA ================= */
 
-.Play-Area {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 120px; /* jarak antara You & AI */
+.Ranked-Play-Area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120px;
 }
 
-/* ================= SIDE ============== */
+/* ================= SIDE ================= */
 
-.Side {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.Ranked-Side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.Side-Label {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
+.Ranked-Side-Label {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.Grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.Ranked-Grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.Row {
-    display: flex;
-    gap: 10px;
+.Ranked-Row {
+  display: flex;
+  gap: 10px;
 }
 
-.Tile {
+.Ranked-Tile {
     width: 58px;
     height: 58px;
-    border: 3.5px solid #000000;
+    border: 2px solid #555;
     background-color: white;
     border-radius: 6px;
-}
 
-.AI-Tile {
-    background-color: rgb(46, 46, 46);
-    /* border: 3.5px solid #555; */
-}
-
-
-/* ============ Bagian Keyboard ========== */
-
-.Keyboard-Area {
-    height: 260px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-.Keyboard {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
+.Ranked-AI-Tile {
+    background-color: #ffffff;
 
-.Keyboard-Row {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+
+    font-size: 28px;
+    font-weight: bold;
 }
 
-.Key {
-  background: #FBF3D5;
-  color: #4747478e;
+/* ============ KEYBOARD ========== */
+
+.Ranked-Keyboard-Area {
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Ranked-Keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.Ranked-Keyboard-Row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.Ranked-Key {
+  background: #6d4e4e;
+  color: white;
   border: 1px solid #2a2a2a;
   padding: 20px 28px;
   border-radius: 10px;
@@ -105,8 +116,8 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
 }
 
-.Key:hover {
-  background: #161616;
+.Ranked-Key:hover {
+  background: #caa4a4;
   border: 1px solid #444;
   transform: translateY(-2px);
 
@@ -115,10 +126,19 @@
     0 0 12px rgba(255, 255, 255, 0.08);
 }
 
-/*===== Modal Overlay =====*/
+.Ranked-Key-Pressed {
+  background: #caa4a4;
+  border: 1px solid #444;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.35),
+    0 0 12px rgba(255, 255, 255, 0.08);
+}
+
 /* ================= MODAL ================= */
 
-.modal-overlay {
+.Ranked-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.75);
@@ -128,7 +148,7 @@
   z-index: 2000;
 }
 
-.mode-modal {
+.Ranked-mode-modal {
   background: #111;
   padding: 40px;
   width: 420px;
@@ -138,7 +158,7 @@
   box-shadow: 0 40px 80px rgba(0,0,0,0.7);
 }
 
-.mode-title {
+.Ranked-mode-title {
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
@@ -148,21 +168,21 @@
   gap: 10px;
 }
 
-.mode-dot {
+.Ranked-mode-dot {
   width: 14px;
   height: 14px;
   background: #22c55e;
   border-radius: 50%;
 }
 
-.mode-desc {
+.Ranked-mode-desc {
   font-size: 16px;
   line-height: 1.6;
   margin-bottom: 30px;
   color: #cfcfcf;
 }
 
-.start-btn {
+.Ranked-start-btn {
   background: #dc2626;
   border: none;
   padding: 14px 28px;
@@ -174,24 +194,106 @@
   transition: 0.2s;
 }
 
-.start-btn:hover {
+.Ranked-start-btn:hover {
   background: #b91c1c;
 }
 
-
-/* ============== Animasi Page Masuk ============== */
-
-.fade-in-page {
-  animation: fadeInPage 0.4s ease forwards;
+/* ============== PAGE ANIMATION ============== */
+  
+.Ranked-fade-in-page {
+  animation: RankedFadeInPage 0.4s ease forwards;
 }
 
-@keyframes fadeInPage {
+@keyframes RankedFadeInPage {
   from {
     opacity: 0;
     transform: scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
+
+/* ================= WINNER MODAL ================= */
+
+.Ranked-winner-modal {
+  padding: 32px;
+  background: radial-gradient(
+  circle at center,
+  rgba(239, 227, 207, 0.7) 0%,
+  rgba(232, 220, 200, 0.7) 40%,
+  rgba(217, 203, 181, 0.7) 70%,
+  rgba(203, 188, 165, 0.7) 100%
+);
+  border-radius: 18px;
+  border: 3px solid black;
+  min-width: 380px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+
+.Ranked-winner-title {
+  margin-bottom: 16px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.Ranked-winner-word {
+  margin-bottom: 24px;
+  font-size: 1.2rem;
+}
+
+.Ranked-elo-change {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.Ranked-elo-positive {
+  color: #16a34a;
+}
+
+.Ranked-elo-negative {
+  color: #dc2626;
+}
+
+.Ranked-current-elo {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+/* ================= Feedback Coloring ================= */
+.Ranked-Green {
+  background: #6aaa64;
+  border-color: #6aaa64;
+  color: white;
+}
+
+.Ranked-Yellow {
+  background: #c9b458;
+  border-color: #c9b458;
+  color: white;
+}
+
+.Ranked-White {
+  background: white;
+  border-color: #d3d6da;
+  color: black;
+}
+
+/* ================= TURN INDICATOR ================= */
+.Ranked-Turn-Indicator{
+    text-align:center;
+    font-size:28px;
+    font-weight:700;
+    margin:20px 0;
+}
+
+.Ranked-Key:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+}
+

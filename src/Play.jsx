@@ -47,10 +47,10 @@ function Play() {
             className={`intro-card ${animate ? "pop-in" : ""}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <h1>Welcome to WorPler 🎮</h1>
+            <h1>Welcome Worderer 🎮</h1>
 
             <p>
-              <strong>WorPler</strong> adalah game tebak kata melawan AI 🤖.
+              <strong>Worder</strong> adalah game tebak kata melawan AI 🤖.
               Uji kemampuan berpikir dan strategi kamu untuk menebak kata
               dengan tepat sebelum kesempatan habis.
             </p>
