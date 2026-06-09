@@ -16,6 +16,7 @@ function LoginPage({ isGuest, setIsGuest }) {
   const [rePassword, setRePassword] = useState("");
   const [error, setError] = useState("");
   const [elo, setElo] = useState("-");
+  const [leaderboard, setLeaderboard] = useState([]);
 
   // Modal dibuka dari Navbar
   useEffect(() => {
@@ -29,6 +30,23 @@ function LoginPage({ isGuest, setIsGuest }) {
       setShowModal(true);
     }
   }, [location.state]);
+
+
+  useEffect(() => {
+    console.log("Fetching leaderboard...");
+    fetch("http://127.0.0.1:5000/leaderboard")
+      .then((res) => {
+        console.log("Response:", res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Data:", data);
+        setLeaderboard(data);
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+  }, []);
 
   // Play as Guest
   const handlePlay = () => {
@@ -65,74 +83,74 @@ function LoginPage({ isGuest, setIsGuest }) {
       return;
     }
 
-  if (isLogin) {
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
+    if (isLogin) {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username,
+              password,
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.message);
+          return;
         }
-      );
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("elo", data.elo);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message);
-        return;
+        window.location.reload();
+        setIsGuest(false);
+        closeModal();
+        navigate("/play");
+      } catch (err) {
+        setError("Tidak bisa terhubung ke server.");
       }
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("elo", data.elo);
-
-      window.location.reload();
-      setIsGuest(false);
-      closeModal();
-      navigate("/play");
-    } catch (err) {
-      setError("Tidak bisa terhubung ke server.");
-    }
-  } else {
-    if (password !== rePassword) {
-      setError("Password tidak sama!");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message);
+    } else {
+      if (password !== rePassword) {
+        setError("Password tidak sama!");
         return;
       }
 
-      setUsername("");
-      setPassword("");
-      setRePassword("");
-      setIsLogin(true);
-    } catch (err) {
-      setError("Tidak bisa terhubung ke server.");
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username,
+              password,
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.message);
+          return;
+        }
+
+        setUsername("");
+        setPassword("");
+        setRePassword("");
+        setIsLogin(true);
+      } catch (err) {
+        setError("Tidak bisa terhubung ke server.");
+      }
     }
-  }
   };
 
   const closeModal = () => {
@@ -165,7 +183,7 @@ function LoginPage({ isGuest, setIsGuest }) {
   return (
     <>
       <div className={`LoginPage ${fadeOut ? "fade-out" : ""}`}>
-        
+
         {/* LEFT */}
         <div className="Left-Container">
           <div className="Up-Content">
@@ -212,7 +230,25 @@ function LoginPage({ isGuest, setIsGuest }) {
           <div className="LeaderBoard-Content">
             <div className="LeaderBoard-border">
               <div className="LeaderBoard">
-                
+                {leaderboard.map((player, index) => (
+                  <div
+                    className="leaderboard-row"
+                    key={player.username}
+                  >
+
+                    <div className="leaderboard-rank">
+                      #{index + 1}
+                    </div>
+
+                    <div className="leaderboard-name">
+                      {player.username}
+                    </div>
+
+                    <div className="leaderboard-elo">
+                      {player.elo}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

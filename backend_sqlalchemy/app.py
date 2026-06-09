@@ -125,6 +125,23 @@ def update_elo():
     return jsonify({
         "new_elo": user.elo
     })
+
+@app.route("/leaderboard", methods=["GET"])
+def leaderboard():
+
+    users = User.query.order_by(
+        User.elo.desc()
+    ).limit(10).all()
+
+    leaderboard_data = []
+
+    for user in users:
+        leaderboard_data.append({
+            "username": user.username,
+            "elo": user.elo
+        })
+
+    return jsonify(leaderboard_data)
     
 if __name__ == "__main__":
     app.run(debug=True)
